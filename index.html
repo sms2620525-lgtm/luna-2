@@ -19,6 +19,7 @@
     --lat:"Cinzel",Georgia,serif;
     --body:"Nanum Myeongjo","Apple SD Gothic Neo",serif;
     --mono:"Syne Mono",ui-monospace,monospace;
+    --heat:0;
   }
 
   *{box-sizing:border-box}
@@ -320,27 +321,143 @@
   }
   .quote .r{color:var(--blood)}
 
-  /* door */
-  .door{
-    text-align:center;padding:clamp(72px,12vh,140px) 5vw;
-    border-block:1px solid rgba(163,18,26,.3);
-    background:radial-gradient(60vw 40vh at 50% 50%, rgba(163,18,26,.09), transparent 70%);
+  /* gut — ritual */
+  .gut{
+    padding:clamp(80px,13vh,150px) 0;
+    border-block:1px solid rgba(163,18,26,.28);
+    background:radial-gradient(70vw 55vh at 50% 55%, rgba(163,18,26,calc(.06 + var(--heat) * .28)), transparent 72%);
+    text-align:center;
+    transition:background .6s;
   }
-  .knob{
-    position:relative;margin-top:34px;
-    width:clamp(150px,24vw,210px);height:clamp(150px,24vw,210px);
-    border-radius:50%;border:1px solid rgba(163,18,26,.55);
-    background:radial-gradient(circle at 40% 34%, #2A0A0D, #0A0507 70%);
-    font-family:var(--disp);font-size:clamp(16px,2.2vw,21px);line-height:1.5;
-    color:var(--blood);
-    box-shadow:0 0 60px -14px rgba(163,18,26,.85), inset 0 0 40px rgba(163,18,26,.2);
-    transition:transform .25s,box-shadow .5s,color .4s;
-    animation:heart 2.6s ease-in-out infinite;
+  .gsub{color:var(--ash);font-size:15px;margin-top:18px}
+
+  /* altar */
+  .altar{width:min(560px,88vw);margin:44px auto 0}
+  .candles{display:flex;justify-content:center;gap:clamp(30px,8vw,72px);align-items:flex-end}
+  .candle{width:16px;height:clamp(52px,9vw,78px);background:linear-gradient(180deg,#D9D2C4,#8C8578);border-radius:2px;position:relative}
+  .candle i{
+    position:absolute;left:50%;bottom:100%;
+    width:14px;height:26px;margin-left:-7px;
+    border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;
+    background:radial-gradient(circle at 50% 72%, #FFF0C4, #FF9A2E 46%, rgba(163,18,26,0) 78%);
+    filter:blur(.4px);
+    opacity:calc(.55 + var(--heat) * .45);
+    transform:scale(calc(1 + var(--heat) * .9));
+    box-shadow:0 0 calc(22px + var(--heat) * 70px) rgba(255,150,40,calc(.35 + var(--heat) * .55));
+    animation:fl .42s ease-in-out infinite alternate;
+    transition:opacity .5s,transform .5s,box-shadow .5s;
   }
-  @keyframes heart{50%{box-shadow:0 0 110px -10px rgba(163,18,26,.95), inset 0 0 60px rgba(163,18,26,.3)}}
-  .knob:hover{transform:scale(1.05);color:var(--ember)}
-  .knob:active{transform:scale(.94)}
-  .count{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;color:var(--dust);margin-top:24px}
+  .candle:nth-child(2) i{animation-duration:.31s}
+  .candle:nth-child(3) i{animation-duration:.5s}
+  @keyframes fl{to{transform:scale(calc(1.14 + var(--heat) * .9)) translateY(-2px) skewX(5deg)}}
+  .table{
+    margin-top:14px;padding:14px 10px;
+    border-top:2px solid rgba(207,200,188,.28);
+    border-bottom:1px solid rgba(207,200,188,.12);
+    background:linear-gradient(180deg,rgba(207,200,188,.07),transparent);
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;color:var(--dust);
+  }
+
+  /* bell */
+  .bell{
+    margin-top:40px;
+    width:clamp(132px,20vw,168px);height:clamp(132px,20vw,168px);
+    border-radius:50%;border:1px solid rgba(214,83,43,.6);
+    background:radial-gradient(circle at 38% 32%, #4A3218, #17100A 72%);
+    font-family:var(--disp);font-size:clamp(17px,2.3vw,21px);line-height:1.4;
+    color:#E5C489;
+    box-shadow:0 0 50px -14px rgba(214,83,43,.8), inset 0 0 34px rgba(214,83,43,.22);
+    transition:transform .09s ease-out, box-shadow .4s;
+  }
+  .bell small{font-size:.7em;color:var(--ash);letter-spacing:.1em}
+  .bell:hover{box-shadow:0 0 80px -10px rgba(214,83,43,.95)}
+  .bell.ring{transform:rotate(-13deg) scale(1.06)}
+  .bell.ring2{transform:rotate(13deg) scale(1.06)}
+  .bell:disabled{opacity:.45;filter:grayscale(.6)}
+
+  .ding{
+    position:fixed;z-index:150;pointer-events:none;
+    font-family:var(--disp);font-size:20px;color:#E5C489;
+    text-shadow:0 0 20px rgba(229,196,137,.8);
+    animation:ding .9s ease-out forwards;
+  }
+  @keyframes ding{
+    0%{opacity:0;transform:translate(-50%,0) scale(.7)}
+    18%{opacity:1;transform:translate(-50%,-14px) scale(1.1)}
+    100%{opacity:0;transform:translate(-50%,-90px) scale(.9)}
+  }
+
+  /* gauge */
+  .gauge{
+    position:relative;width:min(440px,84vw);height:24px;margin:30px auto 0;
+    border:1px solid rgba(207,200,188,.22);background:#0A090C;overflow:hidden;
+  }
+  .gauge i{
+    display:block;height:100%;width:0;
+    background:linear-gradient(90deg,#5E0B10,var(--blood),var(--ember));
+    box-shadow:0 0 26px rgba(214,83,43,.7);
+    transition:width .22s cubic-bezier(.2,.9,.3,1);
+  }
+  .gauge span{
+    position:absolute;inset:0;display:grid;place-items:center;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;color:var(--bone);
+    text-shadow:0 0 10px #000;
+  }
+
+  /* flags */
+  .flags{
+    display:flex;justify-content:center;gap:clamp(8px,2vw,20px);
+    margin-top:44px;
+    opacity:0;transform:translateY(14px);pointer-events:none;
+    transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1);
+  }
+  .flags.on{opacity:1;transform:none;pointer-events:auto}
+  .flag{
+    width:clamp(46px,9vw,74px);height:clamp(96px,17vw,140px);
+    border:0;border-radius:2px 2px 0 0;
+    font-family:var(--disp);font-size:clamp(19px,3vw,28px);
+    color:rgba(0,0,0,.55);
+    position:relative;
+    transform-origin:top center;
+    animation:wave 3.4s ease-in-out infinite;
+    transition:transform .3s cubic-bezier(.2,.9,.3,1.4), filter .4s, opacity .5s;
+    box-shadow:0 18px 40px -22px #000;
+  }
+  .flag:nth-child(2){animation-delay:-.5s}
+  .flag:nth-child(3){animation-delay:-1.1s}
+  .flag:nth-child(4){animation-delay:-1.7s}
+  .flag:nth-child(5){animation-delay:-2.3s}
+  @keyframes wave{50%{transform:rotate(2.4deg) skewY(-1.6deg)}}
+  .flag:hover{transform:translateY(-14px) rotate(-3deg) scale(1.05);filter:brightness(1.2)}
+  .flag.dim{opacity:.16;filter:grayscale(1)}
+  .flag.chosen{transform:translateY(-24px) scale(1.16);filter:brightness(1.35);box-shadow:0 26px 60px -20px currentColor}
+  .f-red{background:linear-gradient(180deg,#C4232B,#7C0F16)}
+  .f-white{background:linear-gradient(180deg,#EFE9DC,#B5AE9E)}
+  .f-yellow{background:linear-gradient(180deg,#E0AE2C,#966C10)}
+  .f-blue{background:linear-gradient(180deg,#33589A,#152C57)}
+  .f-green{background:linear-gradient(180deg,#3B8A5C,#1B4A30)}
+  .flaghint{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;color:var(--dust);
+    margin-top:18px;opacity:0;transition:opacity .8s;
+  }
+  .flaghint.on{opacity:1}
+
+  .oracle{
+    font-family:var(--disp);
+    font-size:clamp(19px,3.4vw,38px);
+    line-height:1.55;color:var(--blood);
+    max-width:24ch;margin:38px auto 0;min-height:1.6em;
+    text-shadow:0 0 50px rgba(163,18,26,.5);
+  }
+  .oracle .tail{display:block;font-size:.52em;color:var(--ash);margin-top:16px;text-shadow:none;letter-spacing:.06em}
+
+  .afterrow{
+    display:flex;gap:12px;justify-content:center;margin-top:28px;
+    opacity:0;transform:translateY(8px);pointer-events:none;
+    transition:opacity .6s,transform .6s;
+  }
+  .afterrow.on{opacity:1;transform:none;pointer-events:auto}
 
   /* contact */
   .contact{text-align:center;padding-bottom:clamp(90px,14vh,160px)}
@@ -359,20 +476,6 @@
     font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--dust);
   }
   footer .k{color:var(--blood-lo)}
-
-  /* modal */
-  .modal{position:fixed;inset:0;z-index:200;display:none;place-items:center;padding:6vw;background:rgba(0,0,0,.92)}
-  .modal.on{display:grid}
-  .modal .box{
-    width:min(600px,100%);border:1px solid var(--blood);
-    background:#08070A;padding:clamp(30px,5vw,52px);text-align:center;
-    box-shadow:0 0 120px -30px rgba(163,18,26,.9);
-    animation:appear 1.2s ease both;
-  }
-  @keyframes appear{from{opacity:0;transform:translateY(10px)}}
-  .modal h3{font-family:var(--disp);font-size:clamp(24px,4.6vw,40px);color:var(--blood);margin-bottom:18px;line-height:1.35}
-  .modal p{color:var(--ash);font-size:15.5px}
-  .modal .row{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 
   #toast{
     position:fixed;left:50%;bottom:36px;transform:translate(-50%,150%);z-index:300;
@@ -503,13 +606,42 @@
     </div>
   </section>
 
-  <!-- DOOR -->
-  <section class="door">
-    <div class="reveal">
-      <p class="kick">기록 04 — 접근 금지</p>
-      <h2 class="big">이 문은 <span class="r">열지 마십시오</span></h2>
-      <button class="knob" id="knob">열지<br>마시오</button>
-      <p class="count" id="count">아직 아무도 열지 않았습니다</p>
+  <!-- GUT -->
+  <section class="gut" id="gut">
+    <div class="wrap reveal">
+      <p class="kick">기록 04 — 굿</p>
+      <h2 class="big">팀 성사 <span class="r">굿</span></h2>
+      <p class="gsub">상은 이미 차렸습니다. 방울을 흔들어 신기를 채우십시오.</p>
+
+      <div class="altar" id="altar">
+        <div class="candles">
+          <div class="candle"><i></i></div>
+          <div class="candle"><i></i></div>
+          <div class="candle"><i></i></div>
+        </div>
+        <div class="table">
+          <span>막걸리</span><span>시루떡</span><span>쌀</span><span>명태</span><span>돼지머리</span>
+        </div>
+      </div>
+
+      <button class="bell" id="bell">방울<br><small>흔들기</small></button>
+
+      <div class="gauge"><i id="fill"></i><span id="gnum">신기 0%</span></div>
+
+      <div class="flags" id="flags" aria-label="오방신장기">
+        <button class="flag f-red"    data-c="red">홍</button>
+        <button class="flag f-white"  data-c="white">백</button>
+        <button class="flag f-yellow" data-c="yellow">황</button>
+        <button class="flag f-blue"   data-c="blue">청</button>
+        <button class="flag f-green"  data-c="green">녹</button>
+      </div>
+      <p class="flaghint" id="flaghint">다섯 개 중 하나를 뽑으십시오. 손이 가는 대로.</p>
+
+      <p class="oracle" id="oracle"></p>
+      <div class="afterrow" id="afterrow">
+        <button class="btn" id="again">다시 굿한다</button>
+        <button class="btn finger" id="fingerBtn" aria-label="반응">🖕</button>
+      </div>
     </div>
   </section>
 
@@ -535,21 +667,12 @@
   </div>
 </main>
 
-<div class="modal" id="modal">
-  <div class="box">
-    <h3 id="mTitle"></h3>
-    <p id="mBody"></p>
-    <div class="row">
-      <a class="btn red" href="mailto:luna303942@proton.me?subject=%ED%8C%80%20%EC%A0%9C%EC%95%88">그래도 팀 제안한다</a>
-      <button class="btn" id="mClose">문 닫기</button>
-    </div>
-  </div>
-</div>
-
+<div id="fling" aria-hidden="true">🖕</div>
 <div id="toast"></div>
 
 <script>
 (function () {
+  var updateLightLabel = function () {};
   var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var TOUCH = matchMedia('(hover: none)').matches;
   if (TOUCH) document.body.classList.add('touch');
@@ -785,38 +908,133 @@
     }, hold || 2000);
   }
 
-  /* ══ THE DOOR ══ */
-  var opens = 0;
-  var cEl = document.getElementById('count');
-  var modal = document.getElementById('modal');
-  var mT = document.getElementById('mTitle'), mB = document.getElementById('mBody');
-  var SCRIPT = [
-    ['열지 말랬는데요', '보통 여기서 멈춥니다. 안 멈추셨네요.<br>…저랑 비슷한 부류신 것 같은데요.', '누가 열었다'],
-    ['두 번째', '이쯤 되면 실수가 아닙니다.<br>계단 끝의 문, 원래 닫혀 있었습니다.', '또 열렸다'],
-    ['세 번째', '알겠습니다. 인정합니다.<br>이 정도로 말 안 듣는 사람이면, 저랑 팀 해도 됩니다.', '문이 웃고 있다'],
-    ['그만 여십시오', '문 닳습니다.<br>그 손으로 메일을 쓰십시오. 새벽에 답장 갑니다.', '이제 그만']
-  ];
-  document.getElementById('knob').addEventListener('click', function () {
-    opens++;
-    var r = this.getBoundingClientRect();
-    spatter(r.left + r.width / 2, r.top + r.height / 2, 70, 12);
-    var L = SCRIPT[Math.min(opens, SCRIPT.length) - 1];
-    cEl.textContent = '문이 열린 횟수: ' + opens;
-    blackout(L[2], 1500, function () {
-      mT.textContent = L[0]; mB.innerHTML = L[1];
-      modal.classList.add('on');
-    });
+  /* ══ 굿 — 방울 흔들기 & 오방신장기 ══ */
+  var bell = document.getElementById('bell');
+  var fill = document.getElementById('fill');
+  var gnum = document.getElementById('gnum');
+  var flags = document.getElementById('flags');
+  var flagHint = document.getElementById('flaghint');
+  var oracle = document.getElementById('oracle');
+  var afterRow = document.getElementById('afterrow');
+  var gutSec = document.getElementById('gut');
+
+  var heat = 0, ringing = false, done = false;
+
+  var ORACLE = {
+    red:   ['재수 대통이다.', '이 사람 데려가면 돈이 붙는다. 약간이지만.'],
+    white: ['천신이 허락했다.', '망설일 이유가 없다. 지금 메일을 써라.'],
+    yellow:['조상이 웃고 있다.', '무난히 잘 굴러간다. 다만 웃음소리가 시끄러울 것이다.'],
+    blue:  ['근심이 하나 보인다.', '그런데 이 사람과 함께면 그 근심을 웃으며 넘긴다.'],
+    green: ['구설수가 있다.', '회의 중에 둘이 낄낄대다 한 소리 듣는다. 결과는 나온다.']
+  };
+
+  function setHeat(v) {
+    heat = Math.max(0, Math.min(1, v));
+    document.documentElement.style.setProperty('--heat', heat.toFixed(3));
+    fill.style.width = (heat * 100) + '%';
+    gnum.textContent = '신기 ' + Math.round(heat * 100) + '%';
+  }
+
+  function ding(x, y) {
+    var d = document.createElement('span');
+    d.className = 'ding';
+    d.textContent = ['짤랑', '쨍', '차랑', '딸랑'][(Math.random() * 4) | 0];
+    d.style.left = x + 'px';
+    d.style.top = y + 'px';
+    document.body.appendChild(d);
+    setTimeout(function () { d.remove(); }, 950);
+  }
+
+  bell.addEventListener('click', function (e) {
+    if (done) return;
+    bell.classList.remove('ring', 'ring2');
+    void bell.offsetWidth;
+    bell.classList.add(ringing ? 'ring2' : 'ring');
+    ringing = !ringing;
+    setTimeout(function () { bell.classList.remove('ring', 'ring2'); }, 110);
+
+    var r = bell.getBoundingClientRect();
+    ding(r.left + r.width / 2 + (Math.random() - .5) * 60, r.top + 10);
+    spatter(r.left + r.width / 2, r.top + r.height / 2, 6 + Math.round(heat * 14), 4 + heat * 8);
+
+    setHeat(heat + 0.055 + Math.random() * 0.035);
+
+    if (heat >= 1) {
+      done = true;
+      bell.disabled = true;
+      setTimeout(function () {
+        blackout('신 이 내 렸 다', 1900, function () {
+          flags.classList.add('on');
+          flagHint.classList.add('on');
+          gutSec.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' });
+          say('오방기 다섯. 손이 가는 대로 하나만.');
+        });
+      }, 320);
+    }
   });
-  document.getElementById('mClose').addEventListener('click', function () { modal.classList.remove('on'); });
-  modal.addEventListener('click', function (e) { if (e.target === modal) modal.classList.remove('on'); });
-  addEventListener('keydown', function (e) { if (e.key === 'Escape') modal.classList.remove('on'); });
+
+  flags.addEventListener('click', function (e) {
+    var f = e.target.closest('.flag');
+    if (!f || !flags.classList.contains('on')) return;
+    flags.querySelectorAll('.flag').forEach(function (x) {
+      if (x !== f) x.classList.add('dim');
+    });
+    f.classList.add('chosen');
+    flags.classList.remove('on');
+    flags.style.pointerEvents = 'none';
+    flagHint.classList.remove('on');
+
+    var r = f.getBoundingClientRect();
+    spatter(r.left + r.width / 2, r.top + r.height / 2, 60, 12);
+
+    var txt = ORACLE[f.dataset.c];
+    oracle.innerHTML = '';
+    var i = 0, line = txt[0];
+    (function type() {
+      oracle.textContent = line.slice(0, ++i);
+      if (i < line.length) return setTimeout(type, 74);
+      setTimeout(function () {
+        var tail = document.createElement('span');
+        tail.className = 'tail';
+        tail.textContent = txt[1];
+        oracle.appendChild(tail);
+        afterRow.classList.add('on');
+      }, 500);
+    })();
+  });
+
+  document.getElementById('again').addEventListener('click', function () {
+    done = false;
+    bell.disabled = false;
+    setHeat(0);
+    oracle.textContent = '';
+    afterRow.classList.remove('on');
+    flags.style.pointerEvents = '';
+    flags.querySelectorAll('.flag').forEach(function (x) { x.classList.remove('dim', 'chosen'); });
+    say('상을 다시 차렸습니다.');
+  });
+
+  var fling = document.getElementById('fling');
+  document.getElementById('fingerBtn').addEventListener('click', function () {
+    fling.classList.remove('go');
+    void fling.offsetWidth;
+    fling.classList.add('go');
+    spatter(innerWidth / 2, innerHeight * .55, 40, 10);
+    oracle.innerHTML = '신도 웃었다.<span class="tail">이 정도 배짱이면 붙어도 되겠다. 메일 주소는 아래에 있다.</span>';
+    say('신이 노하지는 않았습니다.');
+  });
+
+  setHeat(0);
 
   /* ══ blackout mode ══ */
   var boBtn = document.getElementById('blackoutBtn');
   var relight = document.getElementById('relight');
+  updateLightLabel = function () {
+    boBtn.textContent = document.body.classList.contains('blackout') ? '불 켜기' : '정전';
+  }
   function setLights(on) {
     document.body.classList.toggle('blackout', !on);
-    boBtn.textContent = on ? '정전' : '불 켜기';
+    updateLightLabel();
     say(on ? '불이 들어왔습니다.' : '불이 나갔습니다. 우측 아래 스위치로 켤 수 있습니다.');
   }
   boBtn.addEventListener('click', function () {
