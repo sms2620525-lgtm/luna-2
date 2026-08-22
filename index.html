@@ -84,8 +84,39 @@
   }
   #whisper.on{opacity:1}
 
-  body.blackout{filter:brightness(.42) contrast(1.25) saturate(.5)}
+  #dim{
+    position:fixed;inset:0;z-index:39;pointer-events:none;
+    background:#000;opacity:0;transition:opacity .8s ease;
+  }
+  body.blackout #dim{opacity:.62}
   body.blackout #flick{animation-duration:2.4s}
+
+  /* the light switch must always be findable */
+  #blackoutBtn{position:relative;z-index:100}
+  body.blackout #blackoutBtn{
+    background:var(--blood);color:#0A0708;border-color:var(--blood);
+    box-shadow:0 0 40px rgba(163,18,26,.8);
+  }
+  #relight{
+    position:fixed;right:22px;bottom:22px;z-index:145;
+    display:none;align-items:center;gap:10px;
+    background:var(--blood);color:#F6F0E6;border:1px solid #E0454E;
+    padding:15px 26px;border-radius:2px;
+    font-family:var(--disp);font-size:16px;letter-spacing:.16em;
+    box-shadow:0 0 0 rgba(163,18,26,0);
+    animation:lamp 1.5s ease-in-out infinite;
+  }
+  body.blackout #relight{display:inline-flex}
+  #relight:hover{background:#C8161F}
+  @keyframes lamp{
+    0%,100%{box-shadow:0 0 26px rgba(163,18,26,.55)}
+    50%{box-shadow:0 0 70px rgba(224,69,78,.95)}
+  }
+  #relight .bulb{
+    width:9px;height:9px;border-radius:50%;background:#FFD9A0;
+    box-shadow:0 0 14px #FFD9A0;animation:blinkbulb 1.5s steps(2) infinite;
+  }
+  @keyframes blinkbulb{50%{opacity:.25}}
   body.coming{animation:coming .18s steps(2) infinite}
   @keyframes coming{50%{filter:invert(1) sepia(1) hue-rotate(-30deg) saturate(4)}}
 
@@ -370,7 +401,9 @@
 <div id="bar"></div>
 <div id="cur"></div>
 <div id="curDot"></div>
+<div id="dim"></div>
 <div id="black"><p id="whisper"></p></div>
+<button id="relight"><span class="bulb"></span>불 켜기</button>
 
 <!-- ══ GATE ══ -->
 <div id="gate">
@@ -413,7 +446,7 @@
   <section class="blk wrap" id="about">
     <div class="reveal">
       <p class="kick">기록 01 — 관찰 내용</p>
-      <h2 class="big corrupt">유료 AI를 <span class="r">전부</span> 씁니다.<br><span class="g">언어도 여러 개 합니다.</span></h2>
+      <h2 class="big corrupt">쓰는 건 <span class="g">일부입니다.</span><br>대신 숙련도는 <span class="r">최고</span>입니다.</h2>
     </div>
 
     <div class="grid2">
@@ -424,7 +457,7 @@
         </div>
       </div>
       <div class="reveal">
-        <p>새 모델이 나오면 <b>일단 결제부터</b> 합니다. 안 써 본 게 남아 있으면 잠이 오지 않습니다. 그게 몇 년째입니다.</p>
+        <p>세상에 나온 유료 AI를 전부 쓰지는 않습니다. 손에 쥔 것은 <b>몇 개뿐</b>입니다. 다만 그 몇 개를 다루는 <b>숙련도는 최고</b>입니다. 같은 도구를 줘도 나오는 결과가 다릅니다.</p>
         <p>언어도 여러 개 다뤄서, 어느 나라 사람을 앉혀 놔도 대화는 됩니다. 무슨 말을 하는지는 대체로 알아듣습니다.</p>
         <p>목적은 단순합니다. <span class="r">재미</span>, 그리고 <span class="r">약간의 돈</span>. 그 외의 야망은 발견되지 않았습니다.</p>
         <p>다만 한 가지, <b>약속한 것은 반드시 합니다.</b> 이 항목만은 예외 없이 관찰되었습니다.</p>
@@ -433,7 +466,7 @@
     </div>
 
     <div class="recs reveal">
-      <div class="rec"><div class="n"><span data-count="99">0</span>+</div><div class="l">결제한 AI 서비스<br>정확한 수는 본인도 모름</div></div>
+      <div class="rec"><div class="n">최상</div><div class="l">쓰는 AI는 일부<br>다루는 숙련도는 최상급</div></div>
       <div class="rec"><div class="n"><span data-count="24">0</span>시간</div><div class="l">재미있을 때<br>연속 각성 기록</div></div>
       <div class="rec"><div class="n"><span data-count="0">0</span>개</div><div class="l">거창한 비전<br>보유량</div></div>
       <div class="rec"><div class="n">약간</div><div class="l">요구 금액<br>더 주면 당황함</div></div>
@@ -576,7 +609,7 @@
 
   /* ── typing ── */
   var LINES = [
-    '대상은 유료 AI를 종류 없이 구독한다.',
+    '대상이 쓰는 유료 AI는 일부다. 그러나 숙련도는 최상.',
     '언어를 여러 개 사용한다. 용도는 불명.',
     '동기: 재미. 그리고 약간의 돈.',
     '거창한 비전은 발견되지 않았다.',
@@ -623,7 +656,7 @@
   }, 5200);
 
   /* ── ticker ── */
-  var W = ['재미', '약간의 돈', '유료 AI 전부', '친구 같은 팀', '새벽 네 시', '아직 아무도 안 왔다', '문은 열려 있었다', '루나'];
+  var W = ['재미', '약간의 돈', '유료 AI 숙련도 최상', '친구 같은 팀', '새벽 네 시', '아직 아무도 안 왔다', '문은 열려 있었다', '루나'];
   var html = '';
   for (var k = 0; k < 3; k++) html += W.map(function (w) { return '<span>' + w + '</span><span>·</span>'; }).join('');
   document.getElementById('t1').innerHTML = html;
@@ -779,12 +812,17 @@
   addEventListener('keydown', function (e) { if (e.key === 'Escape') modal.classList.remove('on'); });
 
   /* ══ blackout mode ══ */
-  document.getElementById('blackoutBtn').addEventListener('click', function () {
-    document.body.classList.toggle('blackout');
-    var on = document.body.classList.contains('blackout');
-    this.textContent = on ? '복구' : '정전';
-    say(on ? '불이 나갔습니다. 아직 여기 있습니다.' : '불이 들어왔습니다.');
+  var boBtn = document.getElementById('blackoutBtn');
+  var relight = document.getElementById('relight');
+  function setLights(on) {
+    document.body.classList.toggle('blackout', !on);
+    boBtn.textContent = on ? '정전' : '불 켜기';
+    say(on ? '불이 들어왔습니다.' : '불이 나갔습니다. 우측 아래 스위치로 켤 수 있습니다.');
+  }
+  boBtn.addEventListener('click', function () {
+    setLights(document.body.classList.contains('blackout'));
   });
+  relight.addEventListener('click', function () { setLights(true); });
 
   /* ══ copy ══ */
   document.getElementById('copy').addEventListener('click', function () {
